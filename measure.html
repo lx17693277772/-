@@ -4,8 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>无人机照片测距</title>
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/exif-js@2.3.0/exif.min.js" defer></script>
+  <!-- 离线内联依赖：lucide 图标子集 + exif-js 2.3.0（替代原 CDN 外链，断网/内网可用） -->
+  <script>window.lucide=(function(){var ICONS={"clipboard-copy": "<rect width=\"8\" height=\"4\" x=\"8\" y=\"2\" rx=\"1\" ry=\"1\" /> <path d=\"M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2\" /> <path d=\"M16 4h2a2 2 0 0 1 2 2v4\" /> <path d=\"M21 14H11\" /> <path d=\"m15 10-4 4 4 4\" />", "folder-open": "<path d=\"m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2\" />", "history": "<path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\" /> <path d=\"M3 3v5h5\" /> <path d=\"M12 7v5l4 2\" />", "image-down": "<path d=\"M10.3 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10l-3.1-3.1a2 2 0 0 0-2.814.014L6 21\" /> <path d=\"m14 19 3 3v-5.5\" /> <path d=\"m17 22 3-3\" /> <circle cx=\"9\" cy=\"9\" r=\"2\" />", "image-plus": "<path d=\"M16 5h6\" /> <path d=\"M19 2v6\" /> <path d=\"M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5\" /> <path d=\"m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21\" /> <circle cx=\"9\" cy=\"9\" r=\"2\" />", "list-checks": "<path d=\"m3 17 2 2 4-4\" /> <path d=\"m3 7 2 2 4-4\" /> <path d=\"M13 6h8\" /> <path d=\"M13 12h8\" /> <path d=\"M13 18h8\" />", "maximize-2": "<polyline points=\"15 3 21 3 21 9\" /> <polyline points=\"9 21 3 21 3 15\" /> <line x1=\"21\" x2=\"14\" y1=\"3\" y2=\"10\" /> <line x1=\"3\" x2=\"10\" y1=\"21\" y2=\"14\" />", "mountain": "<path d=\"m8 3 4 8 5-5 5 15H2L8 3z\" />", "mouse-pointer-2": "<path d=\"M4.037 4.688a.495.495 0 0 1 .651-.651l16 6.5a.5.5 0 0 1-.063.947l-6.124 1.58a2 2 0 0 0-1.438 1.435l-1.579 6.126a.5.5 0 0 1-.947.063z\" />", "pencil": "<path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\" /> <path d=\"m15 5 4 4\" />", "plane": "<path d=\"M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z\" />", "refresh-cw": "<path d=\"M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8\" /> <path d=\"M21 3v5h-5\" /> <path d=\"M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16\" /> <path d=\"M8 16H3v5\" />", "ruler": "<path d=\"M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z\" /> <path d=\"m14.5 12.5 2-2\" /> <path d=\"m11.5 9.5 2-2\" /> <path d=\"m8.5 6.5 2-2\" /> <path d=\"m17.5 15.5 2-2\" />", "scan-line": "<path d=\"M3 7V5a2 2 0 0 1 2-2h2\" /> <path d=\"M17 3h2a2 2 0 0 1 2 2v2\" /> <path d=\"M21 17v2a2 2 0 0 1-2 2h-2\" /> <path d=\"M7 21H5a2 2 0 0 1-2-2v-2\" /> <path d=\"M7 12h10\" />", "settings-2": "<path d=\"M20 7h-9\" /> <path d=\"M14 17H5\" /> <circle cx=\"17\" cy=\"17\" r=\"3\" /> <circle cx=\"7\" cy=\"7\" r=\"3\" />", "target": "<circle cx=\"12\" cy=\"12\" r=\"10\" /> <circle cx=\"12\" cy=\"12\" r=\"6\" /> <circle cx=\"12\" cy=\"12\" r=\"2\" />", "trash-2": "<path d=\"M3 6h18\" /> <path d=\"M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6\" /> <path d=\"M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2\" /> <line x1=\"10\" x2=\"10\" y1=\"11\" y2=\"17\" /> <line x1=\"14\" x2=\"14\" y1=\"11\" y2=\"17\" />", "undo-2": "<path d=\"M9 14 4 9l5-5\" /> <path d=\"M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11\" />", "zoom-in": "<circle cx=\"11\" cy=\"11\" r=\"8\" /> <line x1=\"21\" x2=\"16.65\" y1=\"21\" y2=\"16.65\" /> <line x1=\"11\" x2=\"11\" y1=\"8\" y2=\"14\" /> <line x1=\"8\" x2=\"14\" y1=\"11\" y2=\"11\" />", "zoom-out": "<circle cx=\"11\" cy=\"11\" r=\"8\" /> <line x1=\"21\" x2=\"16.65\" y1=\"21\" y2=\"16.65\" /> <line x1=\"8\" x2=\"14\" y1=\"11\" y2=\"11\" />"};function svgFor(name){var inner=ICONS[name];if(!inner)return null;return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" ' + 'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' + 'class="lucide lucide-'+name+'">'+inner+'</svg>';}function createIcons(){var list=[];document.querySelectorAll('[data-lucide]').forEach(function(el){list.push(el);});var n=0;list.forEach(function(el){var s=svgFor(el.getAttribute('data-lucide'));if(!s)return;var span=document.createElement('span');span.innerHTML=s;var node=span.firstChild;var cls=el.getAttribute('class');if(cls&&cls!=='lucide'){node.setAttribute('class',node.getAttribute('class')+' '+cls);}Array.prototype.forEach.call(el.attributes,function(a){if(a.name!=='data-lucide'&&a.name!=='class'){node.setAttribute(a.name,a.value);}});el.replaceWith(node);n++;});return{n:n};}return {createIcons:createIcons,icons:ICONS};})();</script>
+  <script>/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/exif-js@2.3.0/exif.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+(function(){var e=!1,t=function(e){return e instanceof t?e:this instanceof t?void(this.EXIFwrapped=e):new t(e)};"undefined"!=typeof exports?("undefined"!=typeof module&&module.exports&&(exports=module.exports=t),exports.EXIF=t):this.EXIF=t;var r=t.Tags={36864:"ExifVersion",40960:"FlashpixVersion",40961:"ColorSpace",40962:"PixelXDimension",40963:"PixelYDimension",37121:"ComponentsConfiguration",37122:"CompressedBitsPerPixel",37500:"MakerNote",37510:"UserComment",40964:"RelatedSoundFile",36867:"DateTimeOriginal",36868:"DateTimeDigitized",37520:"SubsecTime",37521:"SubsecTimeOriginal",37522:"SubsecTimeDigitized",33434:"ExposureTime",33437:"FNumber",34850:"ExposureProgram",34852:"SpectralSensitivity",34855:"ISOSpeedRatings",34856:"OECF",37377:"ShutterSpeedValue",37378:"ApertureValue",37379:"BrightnessValue",37380:"ExposureBias",37381:"MaxApertureValue",37382:"SubjectDistance",37383:"MeteringMode",37384:"LightSource",37385:"Flash",37396:"SubjectArea",37386:"FocalLength",41483:"FlashEnergy",41484:"SpatialFrequencyResponse",41486:"FocalPlaneXResolution",41487:"FocalPlaneYResolution",41488:"FocalPlaneResolutionUnit",41492:"SubjectLocation",41493:"ExposureIndex",41495:"SensingMethod",41728:"FileSource",41729:"SceneType",41730:"CFAPattern",41985:"CustomRendered",41986:"ExposureMode",41987:"WhiteBalance",41988:"DigitalZoomRation",41989:"FocalLengthIn35mmFilm",41990:"SceneCaptureType",41991:"GainControl",41992:"Contrast",41993:"Saturation",41994:"Sharpness",41995:"DeviceSettingDescription",41996:"SubjectDistanceRange",40965:"InteroperabilityIFDPointer",42016:"ImageUniqueID"},i=t.TiffTags={256:"ImageWidth",257:"ImageHeight",34665:"ExifIFDPointer",34853:"GPSInfoIFDPointer",40965:"InteroperabilityIFDPointer",258:"BitsPerSample",259:"Compression",262:"PhotometricInterpretation",274:"Orientation",277:"SamplesPerPixel",284:"PlanarConfiguration",530:"YCbCrSubSampling",531:"YCbCrPositioning",282:"XResolution",283:"YResolution",296:"ResolutionUnit",273:"StripOffsets",278:"RowsPerStrip",279:"StripByteCounts",513:"JPEGInterchangeFormat",514:"JPEGInterchangeFormatLength",301:"TransferFunction",318:"WhitePoint",319:"PrimaryChromaticities",529:"YCbCrCoefficients",532:"ReferenceBlackWhite",306:"DateTime",270:"ImageDescription",271:"Make",272:"Model",305:"Software",315:"Artist",33432:"Copyright"},o=t.GPSTags={0:"GPSVersionID",1:"GPSLatitudeRef",2:"GPSLatitude",3:"GPSLongitudeRef",4:"GPSLongitude",5:"GPSAltitudeRef",6:"GPSAltitude",7:"GPSTimeStamp",8:"GPSSatellites",9:"GPSStatus",10:"GPSMeasureMode",11:"GPSDOP",12:"GPSSpeedRef",13:"GPSSpeed",14:"GPSTrackRef",15:"GPSTrack",16:"GPSImgDirectionRef",17:"GPSImgDirection",18:"GPSMapDatum",19:"GPSDestLatitudeRef",20:"GPSDestLatitude",21:"GPSDestLongitudeRef",22:"GPSDestLongitude",23:"GPSDestBearingRef",24:"GPSDestBearing",25:"GPSDestDistanceRef",26:"GPSDestDistance",27:"GPSProcessingMethod",28:"GPSAreaInformation",29:"GPSDateStamp",30:"GPSDifferential"},a=t.IFD1Tags={256:"ImageWidth",257:"ImageHeight",258:"BitsPerSample",259:"Compression",262:"PhotometricInterpretation",273:"StripOffsets",274:"Orientation",277:"SamplesPerPixel",278:"RowsPerStrip",279:"StripByteCounts",282:"XResolution",283:"YResolution",284:"PlanarConfiguration",296:"ResolutionUnit",513:"JpegIFOffset",514:"JpegIFByteCount",529:"YCbCrCoefficients",530:"YCbCrSubSampling",531:"YCbCrPositioning",532:"ReferenceBlackWhite"},s=t.StringValues={ExposureProgram:{0:"Not defined",1:"Manual",2:"Normal program",3:"Aperture priority",4:"Shutter priority",5:"Creative program",6:"Action program",7:"Portrait mode",8:"Landscape mode"},MeteringMode:{0:"Unknown",1:"Average",2:"CenterWeightedAverage",3:"Spot",4:"MultiSpot",5:"Pattern",6:"Partial",255:"Other"},LightSource:{0:"Unknown",1:"Daylight",2:"Fluorescent",3:"Tungsten (incandescent light)",4:"Flash",9:"Fine weather",10:"Cloudy weather",11:"Shade",12:"Daylight fluorescent (D 5700 - 7100K)",13:"Day white fluorescent (N 4600 - 5400K)",14:"Cool white fluorescent (W 3900 - 4500K)",15:"White fluorescent (WW 3200 - 3700K)",17:"Standard light A",18:"Standard light B",19:"Standard light C",20:"D55",21:"D65",22:"D75",23:"D50",24:"ISO studio tungsten",255:"Other"},Flash:{0:"Flash did not fire",1:"Flash fired",5:"Strobe return light not detected",7:"Strobe return light detected",9:"Flash fired, compulsory flash mode",13:"Flash fired, compulsory flash mode, return light not detected",15:"Flash fired, compulsory flash mode, return light detected",16:"Flash did not fire, compulsory flash mode",24:"Flash did not fire, auto mode",25:"Flash fired, auto mode",29:"Flash fired, auto mode, return light not detected",31:"Flash fired, auto mode, return light detected",32:"No flash function",65:"Flash fired, red-eye reduction mode",69:"Flash fired, red-eye reduction mode, return light not detected",71:"Flash fired, red-eye reduction mode, return light detected",73:"Flash fired, compulsory flash mode, red-eye reduction mode",77:"Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected",79:"Flash fired, compulsory flash mode, red-eye reduction mode, return light detected",89:"Flash fired, auto mode, red-eye reduction mode",93:"Flash fired, auto mode, return light not detected, red-eye reduction mode",95:"Flash fired, auto mode, return light detected, red-eye reduction mode"},SensingMethod:{1:"Not defined",2:"One-chip color area sensor",3:"Two-chip color area sensor",4:"Three-chip color area sensor",5:"Color sequential area sensor",7:"Trilinear sensor",8:"Color sequential linear sensor"},SceneCaptureType:{0:"Standard",1:"Landscape",2:"Portrait",3:"Night scene"},SceneType:{1:"Directly photographed"},CustomRendered:{0:"Normal process",1:"Custom process"},WhiteBalance:{0:"Auto white balance",1:"Manual white balance"},GainControl:{0:"None",1:"Low gain up",2:"High gain up",3:"Low gain down",4:"High gain down"},Contrast:{0:"Normal",1:"Soft",2:"Hard"},Saturation:{0:"Normal",1:"Low saturation",2:"High saturation"},Sharpness:{0:"Normal",1:"Soft",2:"Hard"},SubjectDistanceRange:{0:"Unknown",1:"Macro",2:"Close view",3:"Distant view"},FileSource:{3:"DSC"},Components:{0:"",1:"Y",2:"Cb",3:"Cr",4:"R",5:"G",6:"B"}};function u(e){return!!e.exifdata}function l(n,r){function i(i){var o=c(i);n.exifdata=o||{};var a=function(t){var n=new DataView(t);e;if(255!=n.getUint8(0)||216!=n.getUint8(1))return!1;var r=2,i=t.byteLength,o=function(e,t){return 56===e.getUint8(t)&&66===e.getUint8(t+1)&&73===e.getUint8(t+2)&&77===e.getUint8(t+3)&&4===e.getUint8(t+4)&&4===e.getUint8(t+5)};for(;r<i;){if(o(n,r)){var a=n.getUint8(r+7);return a%2!=0&&(a+=1),0===a&&(a=4),f(t,r+8+a,n.getUint16(r+6+a))}r++}}(i);if(n.iptcdata=a||{},t.isXmpEnabled){var s=function(t){if(!("DOMParser"in self))return;var n=new DataView(t);e;if(255!=n.getUint8(0)||216!=n.getUint8(1))return!1;var r=2,i=t.byteLength,o=new DOMParser;for(;r<i-4;){if("http"==p(n,r,4)){var a=r-1,s=n.getUint16(r-2)-1,u=p(n,a,s),l=u.indexOf("xmpmeta>")+8,c=(u=u.substring(u.indexOf("<x:xmpmeta"),l)).indexOf("x:xmpmeta")+10;return u=u.slice(0,c)+'xmlns:Iptc4xmpCore="http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:plus="http://schemas.android.com/apk/lib/com.google.android.gms.plus" xmlns:ext="http://www.gettyimages.com/xsltExtension/1.0" xmlns:exif="http://ns.adobe.com/exif/1.0/" xmlns:stEvt="http://ns.adobe.com/xap/1.0/sType/ResourceEvent#" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmlns:crs="http://ns.adobe.com/camera-raw-settings/1.0/" xmlns:xapGImg="http://ns.adobe.com/xap/1.0/g/img/" xmlns:Iptc4xmpExt="http://iptc.org/std/Iptc4xmpExt/2008-02-29/" '+u.slice(c),P(o.parseFromString(u,"text/xml"))}r++}}(i);n.xmpdata=s||{}}r&&r.call(n)}if(n.src)if(/^data\:/i.test(n.src))i(function(e,t){t=t||e.match(/^data\:([^\;]+)\;base64,/im)[1]||"",e=e.replace(/^data\:([^\;]+)\;base64,/gim,"");for(var n=atob(e),r=n.length,i=new ArrayBuffer(r),o=new Uint8Array(i),a=0;a<r;a++)o[a]=n.charCodeAt(a);return i}(n.src));else if(/^blob\:/i.test(n.src)){(a=new FileReader).onload=function(e){i(e.target.result)},function(e,t){var n=new XMLHttpRequest;n.open("GET",e,!0),n.responseType="blob",n.onload=function(e){200!=this.status&&0!==this.status||t(this.response)},n.send()}(n.src,(function(e){a.readAsArrayBuffer(e)}))}else{var o=new XMLHttpRequest;o.onload=function(){if(200!=this.status&&0!==this.status)throw"Could not load image";i(o.response),o=null},o.open("GET",n.src,!0),o.responseType="arraybuffer",o.send(null)}else if(self.FileReader&&(n instanceof self.Blob||n instanceof self.File)){var a;(a=new FileReader).onload=function(e){i(e.target.result)},a.readAsArrayBuffer(n)}}function c(e){var t=new DataView(e);if(255!=t.getUint8(0)||216!=t.getUint8(1))return!1;for(var n=2,r=e.byteLength;n<r;){if(255!=t.getUint8(n))return!1;if(225==t.getUint8(n+1))return h(t,n+4,t.getUint16(n+2));n+=2+t.getUint16(n+2)}}var d={120:"caption",110:"credit",25:"keywords",55:"dateCreated",80:"byline",85:"bylineTitle",122:"captionWriter",105:"headline",116:"copyright",15:"category"};function f(e,t,n){for(var r,i,o,a,s=new DataView(e),u={},l=t;l<t+n;)28===s.getUint8(l)&&2===s.getUint8(l+1)&&(a=s.getUint8(l+2))in d&&((o=s.getInt16(l+3))+5,i=d[a],r=p(s,l+5,o),u.hasOwnProperty(i)?u[i]instanceof Array?u[i].push(r):u[i]=[u[i],r]:u[i]=r),l++;return u}function g(e,t,n,r,i){var o,a,s=e.getUint16(n,!i),u={};for(a=0;a<s;a++)o=n+12*a+2,u[r[e.getUint16(o,!i)]]=m(e,o,t,n,i);return u}function m(e,t,n,r,i){var o,a,s,u,l,c,d=e.getUint16(t+2,!i),f=e.getUint32(t+4,!i),g=e.getUint32(t+8,!i)+n;switch(d){case 1:case 7:if(1==f)return e.getUint8(t+8,!i);for(o=f>4?g:t+8,a=[],u=0;u<f;u++)a[u]=e.getUint8(o+u);return a;case 2:return p(e,o=f>4?g:t+8,f-1);case 3:if(1==f)return e.getUint16(t+8,!i);for(o=f>2?g:t+8,a=[],u=0;u<f;u++)a[u]=e.getUint16(o+2*u,!i);return a;case 4:if(1==f)return e.getUint32(t+8,!i);for(a=[],u=0;u<f;u++)a[u]=e.getUint32(g+4*u,!i);return a;case 5:if(1==f)return l=e.getUint32(g,!i),c=e.getUint32(g+4,!i),(s=new Number(l/c)).numerator=l,s.denominator=c,s;for(a=[],u=0;u<f;u++)l=e.getUint32(g+8*u,!i),c=e.getUint32(g+4+8*u,!i),a[u]=new Number(l/c),a[u].numerator=l,a[u].denominator=c;return a;case 9:if(1==f)return e.getInt32(t+8,!i);for(a=[],u=0;u<f;u++)a[u]=e.getInt32(g+4*u,!i);return a;case 10:if(1==f)return e.getInt32(g,!i)/e.getInt32(g+4,!i);for(a=[],u=0;u<f;u++)a[u]=e.getInt32(g+8*u,!i)/e.getInt32(g+4+8*u,!i);return a}}function p(e,t,r){var i="";for(n=t;n<t+r;n++)i+=String.fromCharCode(e.getUint8(n));return i}function h(e,t){if("Exif"!=p(e,t,4))return!1;var n,u,l,c,d,f=t+6;if(18761==e.getUint16(f))n=!1;else{if(19789!=e.getUint16(f))return!1;n=!0}if(42!=e.getUint16(f+2,!n))return!1;var m=e.getUint32(f+4,!n);if(m<8)return!1;if((u=g(e,f,f+m,i,n)).ExifIFDPointer)for(l in c=g(e,f,f+u.ExifIFDPointer,r,n)){switch(l){case"LightSource":case"Flash":case"MeteringMode":case"ExposureProgram":case"SensingMethod":case"SceneCaptureType":case"SceneType":case"CustomRendered":case"WhiteBalance":case"GainControl":case"Contrast":case"Saturation":case"Sharpness":case"SubjectDistanceRange":case"FileSource":c[l]=s[l][c[l]];break;case"ExifVersion":case"FlashpixVersion":c[l]=String.fromCharCode(c[l][0],c[l][1],c[l][2],c[l][3]);break;case"ComponentsConfiguration":c[l]=s.Components[c[l][0]]+s.Components[c[l][1]]+s.Components[c[l][2]]+s.Components[c[l][3]]}u[l]=c[l]}if(u.GPSInfoIFDPointer)for(l in d=g(e,f,f+u.GPSInfoIFDPointer,o,n)){if("GPSVersionID"===l)d[l]=d[l][0]+"."+d[l][1]+"."+d[l][2]+"."+d[l][3];u[l]=d[l]}return u.thumbnail=function(e,t,n,r){var i=function(e,t,n){var r=e.getUint16(t,!n);return e.getUint32(t+2+12*r,!n)}(e,t+n,r);if(!i)return{};if(i>e.byteLength)return{};var o=g(e,t,t+i,a,r);if(o.Compression)switch(o.Compression){case 6:if(o.JpegIFOffset&&o.JpegIFByteCount){var s=t+o.JpegIFOffset,u=o.JpegIFByteCount;o.blob=new Blob([new Uint8Array(e.buffer,s,u)],{type:"image/jpeg"})}break;case 1:console.log("Thumbnail image format is TIFF, which is not implemented.");break;default:console.log("Unknown thumbnail image format '%s'",o.Compression)}else 2==o.PhotometricInterpretation&&console.log("Thumbnail image format is RGB, which is not implemented.");return o}(e,f,m,n),u}function S(e){var t={};if(1==e.nodeType){if(e.attributes.length>0){t["@attributes"]={};for(var n=0;n<e.attributes.length;n++){var r=e.attributes.item(n);t["@attributes"][r.nodeName]=r.nodeValue}}}else if(3==e.nodeType)return e.nodeValue;if(e.hasChildNodes())for(var i=0;i<e.childNodes.length;i++){var o=e.childNodes.item(i),a=o.nodeName;if(null==t[a])t[a]=S(o);else{if(null==t[a].push){var s=t[a];t[a]=[],t[a].push(s)}t[a].push(S(o))}}return t}function P(e){try{var t={};if(e.children.length>0)for(var n=0;n<e.children.length;n++){var r=e.children.item(n),i=r.attributes;for(var o in i){var a=i[o],s=a.nodeName,u=a.nodeValue;void 0!==s&&(t[s]=u)}var l=r.nodeName;if(void 0===t[l])t[l]=S(r);else{if(void 0===t[l].push){var c=t[l];t[l]=[],t[l].push(c)}t[l].push(S(r))}}else t=e.textContent;return t}catch(e){console.log(e.message)}}t.enableXmp=function(){t.isXmpEnabled=!0},t.disableXmp=function(){t.isXmpEnabled=!1},t.getData=function(e,t){return!((self.Image&&e instanceof self.Image||self.HTMLImageElement&&e instanceof self.HTMLImageElement)&&!e.complete)&&(u(e)?t&&t.call(e):l(e,t),!0)},t.getTag=function(e,t){if(u(e))return e.exifdata[t]},t.getIptcTag=function(e,t){if(u(e))return e.iptcdata[t]},t.getAllTags=function(e){if(!u(e))return{};var t,n=e.exifdata,r={};for(t in n)n.hasOwnProperty(t)&&(r[t]=n[t]);return r},t.getAllIptcTags=function(e){if(!u(e))return{};var t,n=e.iptcdata,r={};for(t in n)n.hasOwnProperty(t)&&(r[t]=n[t]);return r},t.pretty=function(e){if(!u(e))return"";var t,n=e.exifdata,r="";for(t in n)n.hasOwnProperty(t)&&("object"==typeof n[t]?n[t]instanceof Number?r+=t+" : "+n[t]+" ["+n[t].numerator+"/"+n[t].denominator+"]\r\n":r+=t+" : ["+n[t].length+" values]\r\n":r+=t+" : "+n[t]+"\r\n");return r},t.readFromBinaryFile=function(e){return c(e)},"function"==typeof define&&define.amd&&define("exif-js",[],(function(){return t}))}).call(this);
+//# sourceMappingURL=/sm/7617443e486e14166dce3c989fbe52953db941b47f653735a639d315df87b04c.map</script>
   <style>
     :root {
       color-scheme: dark;
@@ -237,6 +245,29 @@
       font-size: 12px;
       font-variant-numeric: tabular-nums;
       user-select: none;
+    }
+
+    .toast {
+      position: absolute;
+      left: 50%;
+      top: 18px;
+      z-index: 4;
+      transform: translateX(-50%) translateY(-8px);
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(24, 25, 27, 0.95);
+      color: var(--text);
+      font-size: 13px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.32);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
     .mode-hint {
@@ -608,6 +639,7 @@
         <canvas id="overlay"></canvas>
       </div>
       <div class="mode-hint" id="hint">测量模式：依次点击目标起点和终点。完成后自动开始下一段。</div>
+      <div class="toast" id="toast" role="status"></div>
       <div class="zoom-controls" aria-label="缩放控制">
         <button id="zoomOut" type="button" title="缩小"><i data-lucide="zoom-out"></i></button>
         <div class="zoom-readout" id="zoomReadout">100%</div>
@@ -653,10 +685,10 @@
         </div>
         <div class="readout">
           <div class="readout-item"><span>相对地面高度</span><b id="readAgl">101.8 m</b></div>
-          <div class="readout-item"><span>像素比例尺</span><b id="readGsd">6.55 cm/px</b></div>
+          <div class="readout-item"><span id="readGsdLabel">像素比例尺</span><b id="readGsd">6.55 cm/px</b></div>
         </div>
         <div class="action-row" style="margin-top: 10px;">
-          <button id="applyScale" type="button"><i data-lucide="refresh-cw"></i>应用参数</button>
+          <button id="applyScale" type="button"><i data-lucide="refresh-cw"></i>恢复自动计算</button>
           <button id="fetchDem" type="button"><i data-lucide="mountain"></i>读地表高程</button>
         </div>
       </section>
@@ -757,6 +789,7 @@
       const brandSub = document.querySelector('.brand p');
       const resultList = document.getElementById('resultList');
       const hint = document.getElementById('hint');
+      const toast = document.getElementById('toast');
       const gpsAltInput = document.getElementById('gpsAlt');
       const groundElevInput = document.getElementById('groundElev');
       const hfovInput = document.getElementById('hfov');
@@ -764,6 +797,7 @@
       const coordsInput = document.getElementById('coords');
       const readAgl = document.getElementById('readAgl');
       const readGsd = document.getElementById('readGsd');
+      const readGsdLabel = document.getElementById('readGsdLabel');
       const statGround = document.getElementById('statGround');
       const statAgl = document.getElementById('statAgl');
       const statScale = document.getElementById('statScale');
@@ -805,7 +839,12 @@
         leftPointerId: null,
         leftStartX: 0,
         leftStartY: 0,
-        leftMoved: false
+        leftStartOffsetX: 0,
+        leftStartOffsetY: 0,
+        leftMoved: false,
+        hover: null,
+        hoverShift: false,
+        spaceDown: false
       };
 
       let resizeRaf = 0;
@@ -813,6 +852,10 @@
       let currentImageName = 'source.jpg';
       let imageReadyHandled = false;
       let imageLoadToken = 0;
+      // 导出标注图的绘制基准：固定尺寸，保证导出图清晰且与当前缩放无关（0.4 ≈ 12px 圆点 / 30px 文字）
+      const EXPORT_DRAW_SCALE = 0.4;
+      // 本地持久化：同一张图片的测量结果与参数刷新后可恢复
+      const STORAGE_KEY = 'measure-tool-state-v1';
 
       function fmt(value) {
         if (!Number.isFinite(value)) return '-';
@@ -820,6 +863,28 @@
         if (Math.abs(value) >= 10) return value.toFixed(2);
         if (Math.abs(value) >= 1) return value.toFixed(3);
         return value.toFixed(4);
+      }
+
+      let toastTimer = 0;
+      function showToast(text) {
+        toast.textContent = text;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+      }
+
+      // 以 anchor 为原点，把 target 锁到最近的 45° 方向（水平/垂直/斜向），长度保持不变
+      function snapToOctant(anchor, target) {
+        const dx = target.x - anchor.x;
+        const dy = target.y - anchor.y;
+        const len = Math.hypot(dx, dy);
+        if (len < 1) return target;
+        const step = Math.PI / 4;
+        const angle = Math.round(Math.atan2(dy, dx) / step) * step;
+        return {
+          x: Math.min(Math.max(anchor.x + len * Math.cos(angle), 0), img.naturalWidth),
+          y: Math.min(Math.max(anchor.y + len * Math.sin(angle), 0), img.naturalHeight)
+        };
       }
 
       function metersPerPixel() {
@@ -919,11 +984,17 @@
       async function fetchElevation(latitude, longitude) {
         if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return null;
         const url = `https://api.open-elevation.com/api/v1/lookup?locations=${latitude},${longitude}`;
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        const elevation = data.results?.[0]?.elevation;
-        return Number.isFinite(elevation) ? elevation : null;
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 12000);
+        try {
+          const response = await fetch(url, { signal: controller.signal });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          const elevation = data.results?.[0]?.elevation;
+          return Number.isFinite(elevation) ? elevation : null;
+        } finally {
+          clearTimeout(timer);
+        }
       }
 
       function resetMeasurements() {
@@ -934,6 +1005,49 @@
         state.editingIndex = null;
         state.repointIndex = null;
         state.repointDraft = null;
+      }
+
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            imageName: currentImageName,
+            gpsAlt: gpsAltInput.value,
+            groundElev: groundElevInput.value,
+            hfov: hfovInput.value,
+            imgWidth: imgWidthInput.value,
+            coords: coordsInput.value,
+            calibratedScale: state.calibratedScale,
+            measurements: state.measurements.map((m) => ({
+              a: m.a, b: m.b, label: m.label, manualMeters: m.manualMeters
+            }))
+          }));
+        } catch (error) {
+          // 浏览器禁用存储时静默忽略
+        }
+      }
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return null;
+          const saved = JSON.parse(raw);
+          if (!saved || typeof saved !== 'object') return null;
+          return saved;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function applySavedState(saved) {
+        if (saved.gpsAlt) gpsAltInput.value = saved.gpsAlt;
+        if (saved.groundElev) groundElevInput.value = saved.groundElev;
+        if (saved.hfov) hfovInput.value = saved.hfov;
+        if (saved.imgWidth) imgWidthInput.value = saved.imgWidth;
+        if (saved.coords) coordsInput.value = saved.coords;
+        state.calibratedScale = Number.isFinite(saved.calibratedScale) ? saved.calibratedScale : null;
+        state.measurements = (Array.isArray(saved.measurements) ? saved.measurements : []).filter((m) =>
+          m && m.a && m.b && Number.isFinite(m.a.x) && Number.isFinite(m.a.y) && Number.isFinite(m.b.x) && Number.isFinite(m.b.y)
+        );
       }
 
       async function applyImageMetadata(exif, name) {
@@ -987,6 +1101,7 @@
         readAgl.textContent = `${fmt(agl)} m`;
         statAgl.textContent = `${fmt(agl)} m`;
         statGround.textContent = `${fmt(Number(groundElevInput.value))} m`;
+        readGsdLabel.textContent = state.calibratedScale ? '像素比例尺（标定）' : '像素比例尺（自动）';
         if (gsd) {
           readGsd.textContent = `${(gsd * 100).toFixed(2)} cm/px`;
           statScale.textContent = `${(gsd * 100).toFixed(2)} cm/px`;
@@ -1052,6 +1167,19 @@
         ctx.stroke();
       }
 
+      function drawDraftLine(a, b, color = '#4cc2c4') {
+        const pa = pointToDisplay(a);
+        const pb = pointToDisplay(b);
+        ctx.beginPath();
+        ctx.setLineDash([7 / Math.max(view.scale, 0.05), 5 / Math.max(view.scale, 0.05)]);
+        ctx.moveTo(pa.x, pa.y);
+        ctx.lineTo(pb.x, pb.y);
+        ctx.lineWidth = 1.8 / Math.max(view.scale, 0.05);
+        ctx.strokeStyle = color;
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
       function drawLabel(text, a, b, color = '#f1f2f4') {
         const pa = pointToDisplay(a);
         const pb = pointToDisplay(b);
@@ -1064,7 +1192,8 @@
         const w = metrics.width + padX * 2;
         const h = 21 / Math.max(view.scale, 0.05);
         const x = mx - w / 2;
-        const y = my - h - 5 / Math.max(view.scale, 0.05);
+        let y = my - h - 5 / Math.max(view.scale, 0.05);
+        if (y < 0) y = my + 5 / Math.max(view.scale, 0.05);
         ctx.fillStyle = 'rgba(20, 21, 23, 0.88)';
         ctx.fillRect(x, y, w, h);
         ctx.fillStyle = color;
@@ -1143,10 +1272,22 @@
 
         if (state.draft) {
           drawPoint(state.draft);
+          if (view.hover) {
+            const second = (view.hoverShift && snapToOctant) ? snapToOctant(state.draft, view.hover) : view.hover;
+            drawDraftLine(state.draft, second);
+            drawPoint(second, '#4cc2c4');
+            const gsd = metersPerPixel();
+            const dp = distancePx(state.draft, second);
+            const preview = gsd ? `${fmt(dp * gsd)} m` : `${Math.round(dp)} px`;
+            drawLabel(preview, state.draft, second, '#4cc2c4');
+          }
         }
 
         if (state.repointDraft) {
           drawPoint(state.repointDraft, '#f2b544');
+          if (view.hover) {
+            drawDraftLine(state.repointDraft, view.hover);
+          }
         }
       }
 
@@ -1160,8 +1301,10 @@
         }
         document.getElementById('measureMode').classList.toggle('active', mode === 'measure');
         document.getElementById('calibrateMode').classList.toggle('active', mode === 'calibrate');
+        view.hover = null;
+        view.hoverShift = false;
         if (mode === 'measure') {
-          hint.textContent = '测量模式：依次点击目标起点和终点。完成后自动开始下一段。';
+          hint.textContent = '测量模式：依次点击起点和终点，完成后自动开始下一段。拖动左键可平移，Shift 取终点锁定 45° 方向，滚轮缩放。';
         } else if (mode === 'calibrate') {
           hint.textContent = '标定模式：点击两个已知距离的参考点，然后输入实际长度。';
         } else {
@@ -1262,7 +1405,7 @@
         outputCtx.drawImage(img, 0, 0, output.width, output.height);
 
         const displayScale = view.scale;
-        view.scale = view.fitScale || 1;
+        view.scale = EXPORT_DRAW_SCALE;
         draw();
         outputCtx.drawImage(canvas, 0, 0, output.width, output.height);
         view.scale = displayScale;
@@ -1322,15 +1465,21 @@
           if (!state.repointDraft) {
             state.repointDraft = point;
           } else {
-            const px = distancePx(state.repointDraft, point);
-            if (px < 1) return;
+            const second = event.shiftKey ? snapToOctant(state.repointDraft, point) : point;
+            const px = distancePx(state.repointDraft, second);
+            if (px < 1) {
+              showToast('两点距离过近，已忽略，请放大后再取点');
+              return;
+            }
             measurement.a = state.repointDraft;
-            measurement.b = point;
+            measurement.b = second;
             delete measurement.manualMeters;
             state.repointDraft = null;
+            view.hover = null;
             setMode('measure');
             renderResults();
             updateReadouts();
+            saveState();
           }
           draw();
           return;
@@ -1343,6 +1492,7 @@
             const px = distancePx(state.calibrationPixels[0], state.calibrationPixels[1]);
             if (px < 1) {
               state.calibrationPixels = null;
+              showToast('两点距离过近，标定已取消，请重新取点');
               draw();
               return;
             }
@@ -1358,10 +1508,17 @@
         } else {
           const first = state.draft;
           state.draft = null;
-          const px = distancePx(first, point);
-          if (px < 1) return;
-          state.measurements.push({ a: first, b: point });
+          const second = event.shiftKey ? snapToOctant(first, point) : point;
+          const px = distancePx(first, second);
+          if (px < 1) {
+            showToast('两点距离过近，已忽略，请放大后再取点');
+            draw();
+            return;
+          }
+          view.hover = null;
+          state.measurements.push({ a: first, b: second });
           renderResults();
+          saveState();
         }
         draw();
       }
@@ -1371,6 +1528,16 @@
         imageReadyHandled = true;
         const token = ++imageLoadToken;
         resetMeasurements();
+        const saved = loadState();
+        if (saved && saved.imageName === currentImageName) {
+          applySavedState(saved);
+          fitImage();
+          syncCanvas();
+          updateReadouts();
+          renderResults();
+          draw();
+          return;
+        }
         applyImageMetadata({}, currentImageName).then(() => {
           if (token !== imageLoadToken) return;
           fitImage();
@@ -1391,9 +1558,23 @@
         })();
       });
 
+      img.addEventListener('error', () => {
+        imageMeta.textContent = '图片加载失败，请确认文件存在或重新添加图片。';
+      });
+
       viewport.addEventListener('pointerdown', (event) => {
         if (event.target.closest('.zoom-controls')) return;
-        if (event.pointerType === 'touch' || event.button === 1) {
+        if (event.pointerType === 'touch' || event.button === 1 || event.button === 2 || (event.button === 0 && event.shiftKey === false && view.spaceDown)) {
+          if (event.button === 0 && !view.spaceDown) {
+            // 左键普通按下：进入“取点或平移”待定状态
+            view.leftPointerId = event.pointerId;
+            view.leftStartX = event.clientX;
+            view.leftStartY = event.clientY;
+            view.leftStartOffsetX = view.x;
+            view.leftStartOffsetY = view.y;
+            view.leftMoved = false;
+            return;
+          }
           event.preventDefault();
           view.dragging = true;
           view.moved = false;
@@ -1408,6 +1589,8 @@
           view.leftPointerId = event.pointerId;
           view.leftStartX = event.clientX;
           view.leftStartY = event.clientY;
+          view.leftStartOffsetX = view.x;
+          view.leftStartOffsetY = view.y;
           view.leftMoved = false;
         }
       });
@@ -1415,10 +1598,35 @@
       viewport.addEventListener('pointermove', (event) => {
         if (view.leftPointerId === event.pointerId) {
           const leftDistance = Math.hypot(event.clientX - view.leftStartX, event.clientY - view.leftStartY);
-          if (leftDistance > 4) view.leftMoved = true;
+          if (leftDistance > 4 && !view.leftMoved) {
+            // 左键拖出阈值：本次不再视为取点，转为平移画布（不再静默丢弃）
+            view.leftMoved = true;
+            viewport.classList.add('dragging');
+            viewport.setPointerCapture(event.pointerId);
+          }
+          if (view.leftMoved) {
+            view.x = view.leftStartOffsetX + (event.clientX - view.leftStartX);
+            view.y = view.leftStartOffsetY + (event.clientY - view.leftStartY);
+            view.userZoomed = true;
+            applyViewTransform();
+          }
           return;
         }
-        if (!view.dragging || event.pointerId !== view.pointerId) return;
+        if (!view.dragging || event.pointerId !== view.pointerId) {
+          // 悬停跟踪：驱动橡皮筋预览线
+          if (state.draft || state.repointDraft) {
+            const point = naturalPoint(event);
+            if (point) {
+              view.hover = point;
+              view.hoverShift = event.shiftKey;
+              draw();
+            }
+          } else if (view.hover) {
+            view.hover = null;
+            draw();
+          }
+          return;
+        }
         const dx = event.clientX - view.startX;
         const dy = event.clientY - view.startY;
         if (Math.hypot(dx, dy) > 4) view.moved = true;
@@ -1440,10 +1648,16 @@
           return;
         }
         if (view.leftPointerId === event.pointerId) {
-          const shouldMeasure = !view.leftMoved && event.button === 0;
+          const shouldMeasure = !view.leftMoved && (event.button === 0);
+          const didPan = view.leftMoved;
           view.leftPointerId = null;
           view.leftMoved = false;
+          viewport.classList.remove('dragging');
+          if (viewport.hasPointerCapture(event.pointerId)) {
+            viewport.releasePointerCapture(event.pointerId);
+          }
           if (shouldMeasure) handlePoint(event);
+          else if (didPan) draw();
         }
       });
 
@@ -1455,12 +1669,34 @@
         viewport.classList.remove('dragging');
       });
 
-      viewport.addEventListener('mousedown', (event) => {
-        if (event.button === 1) event.preventDefault();
+      viewport.addEventListener('pointerleave', () => {
+        if (view.hover) {
+          view.hover = null;
+          draw();
+        }
       });
 
-      viewport.addEventListener('auxclick', (event) => {
-        if (event.button === 1) event.preventDefault();
+      viewport.addEventListener('contextmenu', (event) => {
+        event.preventDefault();
+      });
+
+      window.addEventListener('keydown', (event) => {
+        if (event.code === 'Space' && !event.repeat) {
+          const tag = document.activeElement?.tagName;
+          if (tag !== 'INPUT' && tag !== 'TEXTAREA' && !document.querySelector('dialog[open]')) {
+            view.spaceDown = true;
+            event.preventDefault();
+          }
+        }
+        if (event.key === 'Shift' && view.hover) {
+          view.hoverShift = true;
+          if (state.draft || state.repointDraft) draw();
+        }
+      });
+
+      window.addEventListener('keyup', (event) => {
+        if (event.code === 'Space') view.spaceDown = false;
+        if (event.key === 'Shift') view.hoverShift = false;
       });
 
       viewport.addEventListener('wheel', (event) => {
@@ -1538,12 +1774,13 @@
         updateReadouts();
         renderResults();
         draw();
+        saveState();
       });
 
       document.getElementById('fetchDem').addEventListener('click', async () => {
-        const parts = coordsInput.value.split(',').map((s) => s.trim()).map(Number);
+        const parts = coordsInput.value.replace(/，/g, ',').split(/[\s,;；]+/).filter(Boolean).map(Number);
         if (parts.length !== 2 || !parts.every(Number.isFinite)) {
-          alert('请输入格式为 纬度, 经度 的坐标。');
+          alert('请输入格式为 纬度, 经度 的坐标（支持半角/全角逗号或空格分隔）。');
           return;
         }
         const button = document.getElementById('fetchDem');
@@ -1556,8 +1793,9 @@
           updateReadouts();
           renderResults();
           draw();
+          saveState();
         } catch (error) {
-          alert(`读取地表高程失败：${error.message}`);
+          alert(`读取地表高程失败：${error && error.name === 'AbortError' ? '请求超时，请检查网络后重试' : error.message}`);
         } finally {
           button.disabled = false;
         }
@@ -1583,6 +1821,7 @@
         setMode('measure');
         updateReadouts();
         renderResults();
+        saveState();
       });
 
       document.getElementById('undoBtn').addEventListener('click', () => {
@@ -1598,6 +1837,7 @@
         renderResults();
         updateReadouts();
         draw();
+        saveState();
       });
 
       document.getElementById('clearBtn').addEventListener('click', () => {
@@ -1605,6 +1845,7 @@
         renderResults();
         updateReadouts();
         draw();
+        saveState();
       });
 
       document.getElementById('copyBtn').addEventListener('click', () => {
@@ -1636,6 +1877,7 @@
         renderResults();
         updateReadouts();
         draw();
+        saveState();
       }
 
       resultList.addEventListener('click', (event) => {
@@ -1699,6 +1941,7 @@
         renderResults();
         updateReadouts();
         draw();
+        saveState();
       });
 
       document.getElementById('repointResult').addEventListener('click', () => {
@@ -1725,7 +1968,12 @@
           updateReadouts();
           renderResults();
           draw();
+          saveState();
         });
+      });
+
+      coordsInput.addEventListener('change', () => {
+        saveState();
       });
 
       new ResizeObserver(() => {
