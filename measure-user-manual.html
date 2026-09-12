@@ -1,0 +1,1060 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>无人机照片测距工具使用说明书</title>
+  <style>
+    :root {
+      --ink: #17212b;
+      --muted: #5d6b78;
+      --line: #d9e2e8;
+      --paper: #ffffff;
+      --soft: #f4f7f8;
+      --accent: #0f7b83;
+      --accent-soft: #e5f4f4;
+      --amber: #9a6200;
+      --amber-soft: #fff5db;
+      --red: #a23b3b;
+      --red-soft: #fbecec;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      color: var(--ink);
+      background: #edf1f3;
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.65;
+    }
+
+    body {
+      width: 210mm;
+      margin: 0 auto;
+      background: var(--paper);
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      color: #102b31;
+      line-height: 1.3;
+    }
+
+    h1 {
+      font-size: 30pt;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      padding-bottom: 7px;
+      border-bottom: 2px solid var(--accent);
+      font-size: 18pt;
+    }
+
+    h3 {
+      margin: 18px 0 8px;
+      font-size: 13pt;
+    }
+
+    p {
+      margin: 8px 0;
+    }
+
+    ul,
+    ol {
+      margin: 8px 0;
+      padding-left: 1.5em;
+    }
+
+    li {
+      margin: 5px 0;
+    }
+
+    code {
+      padding: 1px 5px;
+      border: 1px solid #d6e0e4;
+      border-radius: 3px;
+      background: #f3f6f7;
+      color: #124f57;
+      font-family: Consolas, "Cascadia Mono", monospace;
+      font-size: 0.94em;
+    }
+
+    pre {
+      margin: 10px 0;
+      padding: 12px 14px;
+      overflow: hidden;
+      border: 1px solid #d6e0e4;
+      border-radius: 5px;
+      background: #f6f8f9;
+      color: #21323a;
+      font-family: Consolas, "Cascadia Mono", monospace;
+      font-size: 9pt;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    table {
+      width: 100%;
+      margin: 10px 0 14px;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 9.3pt;
+    }
+
+    th,
+    td {
+      padding: 7px 8px;
+      border: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      overflow-wrap: anywhere;
+    }
+
+    th {
+      background: var(--accent-soft);
+      color: #16484d;
+      font-weight: 700;
+    }
+
+    tr {
+      break-inside: avoid;
+    }
+
+    .cover {
+      position: relative;
+      min-height: 267mm;
+      padding: 31mm 20mm 19mm;
+      background:
+        linear-gradient(145deg, rgba(15, 123, 131, 0.12), transparent 40%),
+        linear-gradient(180deg, #f9fcfc 0%, #eef6f6 100%);
+      break-after: page;
+    }
+
+    .cover::after {
+      position: absolute;
+      right: 18mm;
+      bottom: 17mm;
+      left: 18mm;
+      height: 8px;
+      background: linear-gradient(90deg, var(--accent) 0 68%, #e0a72f 68% 82%, #394a58 82%);
+      content: "";
+    }
+
+    .cover-kicker {
+      display: inline-block;
+      margin-bottom: 15mm;
+      padding: 5px 10px;
+      border: 1px solid #9acbc9;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--accent);
+      font-size: 10pt;
+      font-weight: 700;
+    }
+
+    .cover h1 {
+      max-width: 145mm;
+      margin-bottom: 8mm;
+      font-size: 35pt;
+    }
+
+    .cover-subtitle {
+      max-width: 150mm;
+      color: #38505b;
+      font-size: 15pt;
+      line-height: 1.65;
+    }
+
+    .cover-meta {
+      position: absolute;
+      right: 20mm;
+      bottom: 34mm;
+      left: 20mm;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 20px;
+      padding: 14px 16px;
+      border: 1px solid rgba(15, 123, 131, 0.25);
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.83);
+    }
+
+    .cover-meta div {
+      color: #40535e;
+    }
+
+    .cover-meta b {
+      color: #173c43;
+    }
+
+    .page {
+      padding: 18mm;
+    }
+
+    .chapter {
+      break-before: page;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 11pt;
+    }
+
+    .toc {
+      margin: 14px 0;
+      padding: 13px 16px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: var(--soft);
+      columns: 2;
+      column-gap: 28px;
+    }
+
+    .toc div {
+      margin: 5px 0;
+      break-inside: avoid;
+    }
+
+    .toc span {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .callout {
+      margin: 12px 0;
+      padding: 10px 12px;
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      break-inside: avoid;
+    }
+
+    .callout.warn {
+      border-left-color: #d29416;
+      background: var(--amber-soft);
+      color: #674800;
+    }
+
+    .callout.danger {
+      border-left-color: var(--red);
+      background: var(--red-soft);
+      color: #6c2929;
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: #fff;
+      break-inside: avoid;
+    }
+
+    .step-no {
+      display: grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .step h3 {
+      margin: 1px 0 3px;
+      font-size: 11pt;
+    }
+
+    .step p {
+      margin: 0;
+      color: #465863;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
+      margin: 12px 0;
+    }
+
+    .box {
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: #fff;
+      break-inside: avoid;
+    }
+
+    .box h3 {
+      margin-top: 0;
+    }
+
+    .formula {
+      margin: 12px 0;
+      padding: 14px;
+      border: 1px solid #b9d8d8;
+      border-radius: 5px;
+      background: #f3fbfb;
+      text-align: center;
+      font-family: Consolas, "Cascadia Mono", monospace;
+      font-size: 11pt;
+      font-weight: 700;
+      color: #155c63;
+    }
+
+    .diagram {
+      display: grid;
+      grid-template-columns: 24mm 1fr 48mm;
+      gap: 6px;
+      margin: 13px 0;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: #f7fafb;
+      text-align: center;
+      font-size: 8.8pt;
+      break-inside: avoid;
+    }
+
+    .diagram > div {
+      display: grid;
+      min-height: 28mm;
+      place-items: center;
+      padding: 7px;
+      border: 1px solid #cbd9df;
+      border-radius: 4px;
+      background: #fff;
+    }
+
+    .diagram .wide {
+      min-height: 46mm;
+      background: #eaf3f4;
+    }
+
+    .diagram strong {
+      display: block;
+      color: #174d53;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-right: 5px;
+      padding: 1px 7px;
+      border-radius: 999px;
+      background: #e5f4f4;
+      color: #12656d;
+      font-size: 8.5pt;
+      font-weight: 700;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      padding-top: 9px;
+      border-top: 1px solid var(--line);
+      color: #6d7b85;
+      font-size: 8.8pt;
+    }
+
+    .avoid-break {
+      break-inside: avoid;
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    @media screen {
+      body {
+        box-shadow: 0 14px 45px rgba(24, 45, 56, 0.15);
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="cover">
+    <div class="cover-kicker">用户文档 · V1.0</div>
+    <h1>无人机照片测距工具<br>使用说明书</h1>
+    <p class="cover-subtitle">在浏览器中上传无人机照片，利用照片高度、相机视场角或已知参考距离，测量图像中两点之间的实际直线距离。</p>
+    <div class="cover-meta">
+      <div><b>适用页面</b><br>measure.html</div>
+      <div><b>文档日期</b><br>2026-09-12</div>
+      <div><b>在线地址</b><br>https://lx17693277772.github.io/-/measure.html</div>
+      <div><b>推荐环境</b><br>Windows / Edge 或 Chrome</div>
+    </div>
+  </section>
+
+  <main class="page">
+    <h2>目录</h2>
+    <div class="toc">
+      <div><span>01</span> 工具简介</div>
+      <div><span>02</span> 快速开始</div>
+      <div><span>03</span> 界面说明</div>
+      <div><span>04</span> 参数与自动比例尺</div>
+      <div><span>05</span> 执行测量</div>
+      <div><span>06</span> 已知距离标定</div>
+      <div><span>07</span> 修改与校正结果</div>
+      <div><span>08</span> 查看与导出</div>
+      <div><span>09</span> 精度与适用范围</div>
+      <div><span>10</span> 隐私与数据保存</div>
+      <div><span>11</span> 常见问题</div>
+      <div><span>12</span> 快速检查表</div>
+    </div>
+
+    <h2>01 工具简介</h2>
+    <p class="lead">该工具是一个纯前端网页，不需要安装软件。图片在当前浏览器中读取和标注，可在电脑浏览器中使用，也可部署到普通静态网站。</p>
+
+    <h3>主要功能</h3>
+    <ul>
+      <li>读取照片的宽度、相机、焦距、GPS 高度和拍摄坐标等 EXIF 信息。</li>
+      <li>根据 GPS 绝对高度、地面高程和水平视场角自动计算像素比例尺。</li>
+      <li>使用图像中的已知现实距离进行比例尺标定，覆盖自动计算结果。</li>
+      <li>依次点击两个端点，测量直线距离，并连续添加多段测量。</li>
+      <li>修改结果名称、端点像素坐标或手工修正长度。</li>
+      <li>复制文字报告，或导出带测量线和数值的原尺寸 PNG 图片。</li>
+    </ul>
+
+    <div class="two-col">
+      <div class="box">
+        <h3>适合使用</h3>
+        <p>地面近似平整的俯视或正射照片、沿着同一地平面测量道路宽度、地块长度、目标间距离等。</p>
+      </div>
+      <div class="box">
+        <h3>不适合直接使用</h3>
+        <p>大面积倾斜拍摄、跨越不同高度的目标、镜头畸变明显的照片、面积和体积计算，以及需要测绘级精度的场景。</p>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <strong>重要</strong>
+      工具计算的是图像中两个像素端点对应的直线距离。结果精度取决于高度、地面高程、视场角、标定距离和照片几何条件。
+    </div>
+
+    <section class="chapter">
+      <h2>02 快速开始</h2>
+      <p class="lead">推荐按以下顺序操作。首次使用时可以直接使用已知距离标定，通常比依赖相机参数更容易核对。</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-no">1</div>
+          <div>
+            <h3>打开测距页面</h3>
+            <p>在 Edge 或 Chrome 中打开在线地址。公开版本可能没有默认示例图，页面中央出现空白或替代文字属于正常现象。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-no">2</div>
+          <div>
+            <h3>添加图片</h3>
+            <p>点击“添加图片”，或把图片文件拖到左侧图像区域。建议使用未经聊天软件压缩、未裁切且保留 EXIF 的原始照片。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-no">3</div>
+          <div>
+            <h3>检查自动读取的信息</h3>
+            <p>等待片刻，查看文件名下方是否出现相机型号、分辨率、焦距、GPS 高度和坐标。读取成功后，部分参数会自动填入。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-no">4</div>
+          <div>
+            <h3>确认参数或执行标定</h3>
+            <p>如果参数可信，点击“应用参数”。如果画面中有已知尺寸的参照物，选择“标定比例”，用已知现实距离建立比例尺。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-no">5</div>
+          <div>
+            <h3>依次点击两个端点</h3>
+            <p>在“测量”模式下，点击起点，再点击终点。完成后会自动开始下一段测量。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-no">6</div>
+          <div>
+            <h3>检查并导出</h3>
+            <p>对照结果列表检查端点位置和数值，必要时修改或“图上重取”。最后复制文字结果或保存标注图片。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>最短操作路径</strong>
+        添加图片 → 标定比例 → 测量 → 保存图片。只测量两点时，不一定需要使用自动比例尺。
+      </div>
+    </section>
+
+    <section class="chapter">
+      <h2>03 界面说明</h2>
+
+      <div class="diagram">
+        <div><strong>顶部状态栏</strong>地面高程<br>相对高度<br>当前比例尺</div>
+        <div class="wide"><strong>图像工作区</strong>显示照片、测量线、端点和缩放控制</div>
+        <div><strong>右侧面板</strong>图片来源<br>比例尺参数<br>操作模式<br>结果与导出</div>
+      </div>
+
+      <h3>顶部状态栏</h3>
+      <table>
+        <colgroup>
+          <col style="width: 26%">
+          <col>
+        </colgroup>
+        <thead>
+          <tr><th>项目</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>地面高程</td><td>目标地面相对于统一高程基准的高程，通常为海拔高度。</td></tr>
+          <tr><td>相对高度</td><td>GPS 绝对高度减去地面高程。小于零时按零处理。</td></tr>
+          <tr><td>比例尺</td><td>当前每个图像像素代表多少厘米或米。标定后显示标定比例尺。</td></tr>
+        </tbody>
+      </table>
+
+      <h3>图像工作区</h3>
+      <table>
+        <colgroup>
+          <col style="width: 26%">
+          <col>
+        </colgroup>
+        <thead>
+          <tr><th>控件或动作</th><th>用途</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>缩小 / 放大</td><td>以视图中心为基准调整显示比例。</td></tr>
+          <tr><td>百分比</td><td>当前显示倍率。“适应窗口”通常显示为 100%。</td></tr>
+          <tr><td>适应窗口</td><td>恢复完整显示图片，取消当前缩放和手动位置。</td></tr>
+          <tr><td>鼠标滚轮</td><td>以鼠标所在位置为中心缩放图片，适合精确选取端点。</td></tr>
+          <tr><td>鼠标中键拖动</td><td>放大后平移图片。触屏设备可直接拖动画面。</td></tr>
+          <tr><td>提示条</td><td>显示当前模式的操作提示，例如测量、标定或重取点。</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout warn">
+        <strong>触屏限制</strong>
+        当前版本建议使用鼠标左键执行测量取点。触屏拖动主要用于平移画面，不保证所有触控浏览器都能通过轻触添加端点。
+      </div>
+
+      <h3>图片来源</h3>
+      <p>点击“添加图片”选择文件，或把图片拖入图像区域。载入新图片会清除原有测量结果、标定点、文字名称和手工修正值。</p>
+
+      <h3>操作模式</h3>
+      <table>
+        <colgroup>
+          <col style="width: 26%">
+          <col>
+        </colgroup>
+        <thead>
+          <tr><th>模式</th><th>操作</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>测量</td><td>点击两个端点形成一条测量线。第二条端点确认后自动开始下一段。</td></tr>
+          <tr><td>标定比例</td><td>点击两个已知现实距离的端点，输入实际距离并应用。</td></tr>
+          <tr><td>图上重取</td><td>从某条结果进入，重新点击新的起点和终点，替换原来的两个端点。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="chapter">
+      <h2>04 参数与自动比例尺</h2>
+      <p class="lead">自动比例尺适合照片带完整 EXIF 且相机参数可信的情况。所有输入均使用十进制数值，不要输入单位文字。</p>
+
+      <table>
+        <colgroup>
+          <col style="width: 27%">
+          <col style="width: 27%">
+          <col>
+        </colgroup>
+        <thead>
+          <tr><th>参数</th><th>示例</th><th>填写方法</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>GPS 绝对高度 (m)</td>
+            <td>1214.807</td>
+            <td>无人机拍摄点的海拔高度，通常从照片 EXIF 自动读取。</td>
+          </tr>
+          <tr>
+            <td>地面高程 (m)</td>
+            <td>1113.0</td>
+            <td>拍摄位置下方的地面海拔。可手工填写，也可通过坐标读取 DEM。</td>
+          </tr>
+          <tr>
+            <td>水平视场角 (°)</td>
+            <td>104.3</td>
+            <td>相机水平视场角。若有 35mm 等效焦距，工具会尝试换算。</td>
+          </tr>
+          <tr>
+            <td>图像宽度 (px)</td>
+            <td>4000</td>
+            <td>原始照片的像素宽度，会在加载图片时更新。</td>
+          </tr>
+          <tr>
+            <td>坐标 (lat, lon)</td>
+            <td>38.272833, 110.343181</td>
+            <td>纬度在前、经度在后，使用十进制度。只用于读取地表高程。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>自动计算关系</h3>
+      <div class="formula">相对地面高度 = GPS 绝对高度 - 地面高程</div>
+      <div class="formula">像素比例尺 = 2 × 相对高度 × tan(水平视场角 ÷ 2) ÷ 图像宽度</div>
+      <div class="formula">实际距离 = 两个端点的像素距离 × 像素比例尺</div>
+
+      <div class="callout">
+        <strong>“应用参数”按钮</strong>
+        点击后会清除已有的已知距离标定，重新使用当前相机参数计算比例尺，并更新全部测量结果。
+      </div>
+
+      <h3>读取地表高程</h3>
+      <ol>
+        <li>确认“坐标”格式正确，例如 <code>38.272833, 110.343181</code>。</li>
+        <li>点击“读地表高程”。</li>
+        <li>按钮暂时禁用，读取成功后地面高程自动更新。</li>
+        <li>工具随后清除已知距离标定，并按新的自动比例尺计算结果。</li>
+      </ol>
+      <div class="callout warn">
+        <strong>需要联网</strong>
+        地表高程来自 Open-Elevation 在线接口。接口不可用、坐标无效或当前网络无法访问时，读取会失败，可改为手工填写地面高程。
+      </div>
+    </section>
+
+    <section class="chapter">
+      <h2>05 执行测量</h2>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-no">1</div>
+          <div>
+            <h3>切换到“测量”模式</h3>
+            <p>默认加载后即为测量模式。若刚完成标定或编辑，可再次点击“测量”。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-no">2</div>
+          <div>
+            <h3>点击起点</h3>
+            <p>鼠标左键单击目标起点。画面会出现一个黄色端点，提示条进入等待第二点的状态。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-no">3</div>
+          <div>
+            <h3>点击终点</h3>
+            <p>点击目标终点后，页面生成一条青色测量线和中间数值标签，并自动准备下一段测量。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-no">4</div>
+          <div>
+            <h3>重复测量</h3>
+            <p>结果会依次命名为 M1、M2、M3。数量较多时，可在结果列表中改名。</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>结果列表</h3>
+      <table>
+        <colgroup>
+          <col style="width: 25%">
+          <col>
+        </colgroup>
+        <thead>
+          <tr><th>显示内容</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>主要数值</td><td>当前比例尺有效时显示米；比例尺无效时显示像素距离。</td></tr>
+          <tr><td>像素值</td><td>两个端点之间的原始像素直线距离。</td></tr>
+          <tr><td>“手动”标记</td><td>该结果使用了手工修正长度，不再按比例尺自动计算。</td></tr>
+          <tr><td>铅笔按钮</td><td>打开“修改测量结果”窗口。</td></tr>
+          <tr><td>删除按钮</td><td>直接删除该测量项。</td></tr>
+        </tbody>
+      </table>
+
+      <h3>撤销与清空</h3>
+      <table>
+        <colgroup>
+          <col style="width: 25%">
+          <col>
+        </colgroup>
+        <thead>
+          <tr><th>按钮</th><th>行为</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>撤销</td><td>按当前状态依次撤销未完成的点、标定点、最后一条测量或已应用的比例标定。</td></tr>
+          <tr><td>清空</td><td>清除全部测量、未完成端点、标定端点和标定比例，但保留当前图片和参数输入。</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout danger">
+        <strong>没有自动保存</strong>
+        刷新页面、关闭页面、重新添加图片或点击“清空”都会造成测量结果丢失。测量完成后应立即复制或导出。
+      </div>
+    </section>
+
+    <section class="chapter">
+      <h2>06 已知距离标定</h2>
+      <p class="lead">当自动比例尺不可信，或者画面中存在尺寸确定的参照物时，优先使用已知距离标定。标定比例会覆盖相机参数计算出的比例尺。</p>
+
+      <h3>适用参照物</h3>
+      <ul>
+        <li>已经测量过的道路宽度、车位宽度、建筑边长、球场地线或标准标尺。</li>
+        <li>参照物与待测目标尽量处在同一高度平面，并且距离相机大致相同。</li>
+        <li>参照物在图中的两个端点应清晰、间距尽量长，以提高比例尺稳定性。</li>
+      </ul>
+
+      <h3>操作步骤</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-no">1</div>
+          <div>
+            <h3>选择“标定比例”</h3>
+            <p>提示条会变为“点击两个已知距离的参考点”。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-no">2</div>
+          <div>
+            <h3>点击参照物两端</h3>
+            <p>第一条线和两个黄色端点确认后，会弹出“标定比例尺”窗口。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-no">3</div>
+          <div>
+            <h3>输入已知距离</h3>
+            <p>填写参照物两个端点之间的真实现实距离，单位为米。必须是大于 0 的数字。</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-no">4</div>
+          <div>
+            <h3>点击“应用标定”</h3>
+            <p>工具计算“已知距离 ÷ 像素距离”，更新顶部比例尺，并重算所有自动测量结果。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="formula">标定比例尺 = 已知现实距离 (m) ÷ 参照物像素距离 (px)</div>
+
+      <h3>恢复自动比例尺</h3>
+      <p>修改参数后点击“应用参数”，或重新执行“读地表高程”。两种操作都会清除已知距离标定，恢复自动比例尺。单独修改输入框不会立刻覆盖已应用的手工标定。</p>
+
+      <div class="callout">
+        <strong>标定建议</strong>
+        标定距离越长，端点定位误差对比例尺的影响越小。例如使用 20 米道路长度通常比使用 0.5 米标尺更稳定。
+      </div>
+    </section>
+
+    <section class="chapter">
+      <h2>07 修改与校正结果</h2>
+      <p class="lead">在结果列表中点击铅笔图标，可打开“修改测量结果”窗口。</p>
+
+      <table>
+        <colgroup>
+          <col style="width: 27%">
+          <col>
+        </colgroup>
+        <thead>
+          <tr><th>字段或按钮</th><th>用途</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>结果名称</td>
+            <td>为测量项设置易读名称，最长 40 个字符。留空时恢复为 M1、M2 等默认名称。</td>
+          </tr>
+          <tr>
+            <td>起点 X / Y (px)</td>
+            <td>起点在原始图片像素坐标系中的坐标。原点在左上角，X 向右，Y 向下。</td>
+          </tr>
+          <tr>
+            <td>终点 X / Y (px)</td>
+            <td>终点在原始图片像素坐标系中的坐标，必须在图片范围内。</td>
+          </tr>
+          <tr>
+            <td>手工修正长度 (m)</td>
+            <td>填写正数后，该结果直接使用这个长度，并显示“手动”标记。留空后恢复自动计算。</td>
+          </tr>
+          <tr>
+            <td>图上重取</td>
+            <td>关闭编辑窗口，在图片上重新点击新的起点和终点。重取后会取消该结果的手工修正长度。</td>
+          </tr>
+          <tr>
+            <td>删除</td>
+            <td>删除当前结果。删除后撤销按钮不会恢复，推荐先核对再操作。</td>
+          </tr>
+          <tr>
+            <td>保存</td>
+            <td>校验坐标、距离和手工长度后保存，并立即刷新列表和图片标注。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>什么时候使用“图上重取”</h3>
+      <ul>
+        <li>第一次点击的端点位置不准。</li>
+        <li>缩放后发现端点落在目标边缘之外。</li>
+        <li>目标位置改变，需要保留原结果名称但替换测量位置。</li>
+      </ul>
+
+      <h3>什么时候使用“手工修正长度”</h3>
+      <p>只有在已经通过外部可靠方法得到现实长度，并且希望报告中保留该结果时使用。手工数值会覆盖本工具根据像素和比例尺计算出的结果，不会反向修正比例尺。</p>
+    </section>
+
+    <section class="chapter">
+      <h2>08 查看与导出</h2>
+
+      <h3>缩放和定位</h3>
+      <table>
+        <colgroup>
+          <col style="width: 29%">
+          <col>
+        </colgroup>
+        <thead>
+          <tr><th>操作</th><th>结果</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>滚轮向前 / 向后</td><td>以鼠标位置为中心放大或缩小图片，适合精细选点。</td></tr>
+          <tr><td>“+” / “−”按钮</td><td>以图像工作区中心为基准缩放。</td></tr>
+          <tr><td>“适应窗口”</td><td>回到完整图片视图。</td></tr>
+          <tr><td>鼠标中键拖动</td><td>平移放大后的图片。触屏设备可直接拖动。</td></tr>
+        </tbody>
+      </table>
+
+      <h3>复制结果</h3>
+      <p>点击“复制结果”，工具会复制一份纯文本报告。粘贴到聊天、邮件或文档后，可按需要继续编辑。</p>
+      <pre>无人机照片测距结果
+
+默认比例尺来源：GPS 绝对高度减地表高程，再按水平视场角换算。
+比例尺：6.55 cm/px
+相对地面高度：101.8 m
+
+M1：12.34 m（188 px）
+M2：5.82 m（89 px，手动修正）</pre>
+
+      <h3>保存图片</h3>
+      <p>点击“保存图片”会生成原图分辨率的 PNG 文件，包含测量线、端点、结果名称和数值。文件名格式为：</p>
+      <pre>原图片名_measurements.png</pre>
+      <ul>
+        <li>导出不受当前屏幕缩放影响，始终使用原始图片尺寸。</li>
+        <li>手工修正结果会显示“修正”标记。</li>
+        <li>如需导出的图片正常生成，建议始终通过“添加图片”载入本地图片。</li>
+      </ul>
+
+      <div class="callout warn">
+        <strong>核对顺序</strong>
+        先确认比例尺，再检查每条测量线，最后复制结果和保存图片。保存后的 PNG 不会包含结果列表，但会包含图上标注。
+      </div>
+    </section>
+
+    <section class="chapter">
+      <h2>09 精度与适用范围</h2>
+      <p class="lead">当前算法进行二维图像测量，不执行完整的摄影测量相机模型和倾斜校正。因此，结果应被视为估算值。</p>
+
+      <h3>影响精度的主要因素</h3>
+      <table>
+        <colgroup>
+          <col style="width: 29%">
+          <col>
+        </colgroup>
+        <thead>
+          <tr><th>因素</th><th>影响</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>相对高度</td><td>高度误差会按比例传递到长度结果。高度越小，同样比例误差造成的结果误差越小。</td></tr>
+          <tr><td>地面高程</td><td>地面高程不准确会直接改变相对高度，尤其对自动比例尺影响明显。</td></tr>
+          <tr><td>视场角</td><td>视场角或等效焦距不准确，会改变整个画面的比例尺。</td></tr>
+          <tr><td>照片裁切与压缩</td><td>裁切会破坏原始视场角关系，聊天软件压缩还可能移除 EXIF。</td></tr>
+          <tr><td>镜头畸变</td><td>画面边缘的直线拉伸会使像素距离产生系统误差。</td></tr>
+          <tr><td>拍摄倾角</td><td>倾斜越大，图像平面距离与真实地面距离的差异越大。</td></tr>
+          <tr><td>地面高差</td><td>单个地面高程无法表示起伏地形，跨越坡面或不同高度目标时误差增大。</td></tr>
+          <tr><td>端点定位</td><td>端点点错或点偏会直接改变像素距离，应放大后精确选取。</td></tr>
+        </tbody>
+      </table>
+
+      <h3>提高结果可靠性的方法</h3>
+      <ol>
+        <li>优先使用同一地平面上的已知距离完成标定。</li>
+        <li>标定线尽量长，并使用清晰、确定的端点。</li>
+        <li>目标与参照物尽量位于画面同一区域和相同高度。</li>
+        <li>使用原始照片，不要使用经过裁切、旋转或聊天软件压缩的副本。</li>
+        <li>放大图片后再点击端点，完成后复查每条线是否贴合目标边缘。</li>
+        <li>使用多个独立参照物重复标定，比较比例尺是否接近。</li>
+      </ol>
+
+      <div class="callout danger">
+        <strong>专业用途提示</strong>
+        不应将本工具的单一结果直接用于工程结算、法律取证、测绘备案或安全决策。专业用途需要经过控制点检核、畸变校正和精度评估。
+      </div>
+    </section>
+
+    <section class="chapter">
+      <h2>10 隐私与数据保存</h2>
+
+      <h3>图片如何处理</h3>
+      <p>通过“添加图片”载入的图片使用浏览器本地对象 URL 读取。测距工具本身不会主动把图片内容上传到服务器，测量也在当前浏览器中完成。</p>
+
+      <h3>哪些网络请求可能发生</h3>
+      <table>
+        <colgroup>
+          <col style="width: 29%">
+          <col>
+        </colgroup>
+        <thead>
+          <tr><th>功能</th><th>网络数据</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>页面界面资源</td><td>从 unpkg 和 jsDelivr 加载图标及 EXIF 解析库，外部服务可获取访问 IP 和请求信息。</td></tr>
+          <tr><td>读取地表高程</td><td>填写的拍摄坐标会发送到 Open-Elevation 接口，用于查询对应位置的地面高程。</td></tr>
+          <tr><td>GitHub Pages</td><td>访问页面时由 GitHub Pages 提供 HTML 文件，并按 GitHub 的访问日志策略处理请求。</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout warn">
+        <strong>敏感照片</strong>
+        如果照片包含精确位置、人员、设施或其他敏感信息，请确认当前网络的隐私要求。最稳妥的方式是将页面和所需脚本部署到受控网络，并关闭外部高程查询。
+      </div>
+
+      <h3>结果是否保存</h3>
+      <p>工具没有账号、数据库或项目保存功能。图片、参数、端点和结果只保留在当前页面内存中。发生以下操作时，结果会丢失：</p>
+      <ul>
+        <li>刷新或关闭页面。</li>
+        <li>添加另一张图片。</li>
+        <li>点击“清空”。</li>
+        <li>浏览器崩溃、标签页被系统回收或设备断电。</li>
+      </ul>
+    </section>
+
+    <section class="chapter">
+      <h2>11 常见问题</h2>
+      <table>
+        <colgroup>
+          <col style="width: 25%">
+          <col style="width: 31%">
+          <col>
+        </colgroup>
+        <thead>
+          <tr><th>现象</th><th>可能原因</th><th>处理方法</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>打开后没有默认照片</td>
+            <td>公开仓库没有上传示例照片，这是隐私保护设置。</td>
+            <td>点击“添加图片”或把自己的照片拖入工作区。</td>
+          </tr>
+          <tr>
+            <td>没有读取到相机和 GPS 信息</td>
+            <td>照片已裁切、压缩、转存或 EXIF 被移除，也可能 CDN 库未加载。</td>
+            <td>换用原图；检查网络；手工填写高度、视场角、图像宽度和坐标。</td>
+          </tr>
+          <tr>
+            <td>读地表高程失败</td>
+            <td>坐标格式错误、值超出范围、没有网络或在线接口暂时不可用。</td>
+            <td>按“纬度, 经度”格式重新输入，稍后重试，或手工填写地面高程。</td>
+          </tr>
+          <tr>
+            <td>测量数值明显偏大或偏小</td>
+            <td>比例尺错误、照片被裁切、拍摄倾斜、地面不平或端点点偏。</td>
+            <td>使用同一平面的已知距离重新标定，放大图片并重取端点。</td>
+          </tr>
+          <tr>
+            <td>点击图片没有生成端点</td>
+            <td>当前仍在编辑窗口、标定流程，或使用触屏轻触而浏览器只识别为平移。</td>
+            <td>关闭对话框并切换到“测量”；触屏设备建议改用电脑鼠标操作。</td>
+          </tr>
+          <tr>
+            <td>保存图片失败</td>
+            <td>图片尚未加载完成，或图片来源受到跨域限制。</td>
+            <td>等待图片完整显示，并通过“添加图片”重新载入本地文件后再保存。</td>
+          </tr>
+          <tr>
+            <td>复制后没有内容</td>
+            <td>浏览器阻止剪贴板访问。</td>
+            <td>确认使用 HTTPS 页面，允许剪贴板权限，重试或手工记录结果。</td>
+          </tr>
+          <tr>
+            <td>刷新后结果消失</td>
+            <td>工具没有持久化存储，属于当前设计。</td>
+            <td>完成测量后立即复制报告并保存标注图片。</td>
+          </tr>
+          <tr>
+            <td>修改参数后比例尺没变</td>
+            <td>当前仍是已知距离标定比例，单独修改输入框不会覆盖标定。</td>
+            <td>点击“应用参数”恢复自动比例尺，或重新执行已知距离标定。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="chapter">
+      <h2>12 快速检查表</h2>
+
+      <h3>测量前</h3>
+      <ul>
+        <li>照片是否为未压缩、未裁切的原图？</li>
+        <li>GPS 高度、地面高程、视场角和图像宽度是否正确？</li>
+        <li>是否可以用更可靠的已知距离进行标定？</li>
+        <li>待测目标与参照物是否处于相近的高度平面？</li>
+      </ul>
+
+      <h3>测量中</h3>
+      <ul>
+        <li>是否已放大图片并准确点击端点？</li>
+        <li>测量线是否完整覆盖目标，没有越过端缘？</li>
+        <li>每条结果是否已命名，便于后续识别？</li>
+        <li>比例尺或地面高程变化后，结果是否已重新计算？</li>
+      </ul>
+
+      <h3>测量后</h3>
+      <ul>
+        <li>是否用第二个参照物或常识进行了复核？</li>
+        <li>是否需要手工修正长度，并确认修正依据？</li>
+        <li>是否已点击“复制结果”保存文字报告？</li>
+        <li>是否已点击“保存图片”保存带标注的 PNG？</li>
+      </ul>
+
+      <div class="callout">
+        <strong>推荐归档内容</strong>
+        原始照片、用于标定的参照物及已知尺寸、复制出的文字报告、保存的标注图片。这样便于以后复现和检查测量结果。
+      </div>
+
+      <h3>文档信息</h3>
+      <table>
+        <colgroup>
+          <col style="width: 28%">
+          <col>
+        </colgroup>
+        <tbody>
+          <tr><th>文档版本</th><td>V1.0</td></tr>
+          <tr><th>适用工具</th><td>无人机照片测距工具 measure.html</td></tr>
+          <tr><th>在线页面</th><td>https://lx17693277772.github.io/-/measure.html</td></tr>
+          <tr><th>发布日期</th><td>2026-09-12</td></tr>
+        </tbody>
+      </table>
+
+      <p class="footer-note">本文档依据当前页面功能编写。如果页面后续增加功能、修改公式或调整交互，应同步更新说明书版本。</p>
+    </section>
+  </main>
+</body>
+</html>
